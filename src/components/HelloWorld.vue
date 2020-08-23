@@ -1,28 +1,46 @@
 <template>
   <div>
-    <nav class="navbar navbar-expand navbar-custom ">
-      <a class="navbar-brand navbar-custom-text" >Weather App</a>
+    <nav class="container navbar navbar-expand navbar-custom ">
+      <a class="navbar-brand navbar-custom-text" >OGI WEATHER</a>
 
       <div class="navbar-custom-search">
-        <input v-model="query" @keypress="fetchWeather" class="form-control  ">
+        <input placeholder="Search" v-model="query" @keypress="fetchWeather" class="form-control  ">
       </div>
 
     </nav>
-    <div class="container">
-          <div class="table mx-auto " v-if="typeof weather.main != 'undefined'">
-            <a class="degree">{{Math.round(weather.main.temp)}}°C</a>
-            <a class="day">{{ dateBuilder() }}</a>
-            <a class="day">{{ weather.name }} {{weather.sys.country}}</a>
-            <a class="status">{{weather.weather[0].main}}</a>
+    <div class="container ">
+
+          <div class="table mx-auto" v-if="typeof weather.main != 'undefined'">
+            <div class="table-head">
+              <a class="table-head-day">{{ currentWeekDay() }}</a>
+              <a class="table-head-degree">{{Math.round(weather.main.temp)}}°C</a>
+            </div>
+
+            <div>
+              <IconSun v-if="weather.main.temp > 16"/>
+              <IconCold v-else/>
+            </div>
+
+            <div class="group">
+              <a class="table-date-day">{{ currentDay() }} </a>
+              <a class="table-date-month">{{ currentMonth() }} </a>
+              <a class="table-date-year">{{ currentYear() }}</a>
+            </div>
+
+            <a class="table-country">{{ weather.name }} {{weather.sys.country}}</a>
+            <!--<a class="table-status">{{weather.weather[0].main}}</a>-->
           </div>
       </div>
-    </div>
+
+  </div>
 
 
 </template>
 
 <script>
 
+import IconSun from "@/icons/sun-icon.svg";
+import IconCold from "@/icons/cold-icon.svg";
 
 
 export default {
@@ -34,6 +52,10 @@ export default {
       query:"",
       weather:{},
     }
+  },
+  components:{
+    IconSun,
+    IconCold,
   },
   methods:{
     fetchWeather(e) {
@@ -49,66 +71,128 @@ export default {
     setResults(results) {
       this.weather = results;
     },
-    dateBuilder() {
+
+    currentDay(){
+      let d = new Date();
+      let date = d.getDate();
+      return ` ${date}`;
+    },
+
+    currentMonth() {
+      let d = new Date();
+      let months = ["JANUARY", "FEBRUARY", "MARCH", "APRIL", "MAY", "JUNE", "JULY", "AUGUST", "September", "OCTOBER", "NOVEMBER", "DECEMBER",];
+      let month = months[d.getMonth()];
+      return `${month}`;
+    },
+
+    currentYear(){
+      let d = new Date();
+      let year = d.getFullYear();
+      return `${year}`;
+    },
+
+    currentWeekDay(){
       let d = new Date();
       let days = ["SUNDAY","MONDAY","TUESDAY","THURSDAY","FRIDAY","SATURDAY"];
-
       let day  = days[d.getDay()];
-      let date = d.getDate();
-      return `${day} ${date}`;
-    }
-
+      return `${day}`;
+    },
   },
-
 }
 </script>
 
 <style scoped>
+
 .table {
   margin-top: 20px;
   display: flex;
   border-radius: 2px;
   background-color: #131B23;
-  padding-left: 10px;
-  padding-right: 30px;
-  padding-top: 10px;
-  min-height: 400px;
+  min-height: 500px;
   align-items: center;
   flex-direction: column;
   max-width: 500px;
+  padding-bottom: 20px;
+
+  &-head{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      &-day {
+        font-family: saira;
+        font-size: 38px;
+        color: white;
+        margin-top: 20px;
+        text-decoration: none;
+      }
+
+      &-degree{
+        font-size:120px;
+        font-family: saira;
+        color: #2DCAD2;
+        text-decoration: none;
+      }
+    }
+
+    &-date{
+      display: flex;
+      flex-direction: row;
+
+      &-day {
+        font-family: saira;
+        font-size: 38px;
+        color: white;
+        text-decoration: none;
+      }
+      &-month {
+        text-decoration: none;
+        color: white;
+        font-size: 38px;
+        font-family: saira;
+      }
+      &-year {
+        text-decoration: none;
+        color: white;
+        font-size: 38px;
+        font-family: saira;margin-top: 50px;
+      }
+    }
+  &-country {
+    text-decoration: none;
+    color: white;
+    font-size: 22px;
+    font-family: saira;
+  }
+  &-status {
+    font-size: 25px;
+    font-family: saira;
+    color: #2DCAD2;
+  }
+
+
+
+}
+.group{
+  margin-top: auto;
+
 }
 
-.day {
-  font-family: saira;
-  font-size: 22px;
-  color: white;
-  text-decoration: none;
 
-}
 
-.degree{
-  font-size: 80px;
-  font-family: saira;
-  color: #2DCAD2;
-
-  text-decoration: none;
-}
-.status {
-  font-size: 25px;
-  font-family: saira;
-  color: #2DCAD2;
-}
 .navbar-custom{
   display: flex;
   background-color:#1B262C;
+
   &-text{
     color: white;
     font-size: 32px;
     font-family: saira;
   }
   &-search {
-    max-width: 500px;
-
+    width: 1080px;
+    margin: auto ;
+    justify-content: center;
   }
 }
 </style>
