@@ -8,18 +8,18 @@
 
 <script>
 export default {
-  name:"Footer"
+  name: "Footer"
 }
 </script>
 
 <style scoped>
-.navbar-custom{
+.navbar-custom {
   display: flex;
-  background-color:#1B262C;
-  &-text{
-    color: white;
+  background-color: rgb(var(--darker));
+
+  &-text {
     font-size: 22px;
-    font-family: saira;
+
 
   }
 }
