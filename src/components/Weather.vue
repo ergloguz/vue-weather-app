@@ -4,28 +4,28 @@
       <a class="navbar-brand navbar-custom-text">OGI WEATHERS</a>
 
       <div class="navbar-custom-search">
-        <input placeholder="Search" v-model="query" @keypress="fetchWeather" class="form-control" />
+        <CustomInput placeholder="Search" v-model="query" @keypress="fetchWeather" class="form-control"/>
       </div>
     </nav>
     <div class="container">
       <div class="table mx-auto" v-if="typeof weather.main != 'undefined'">
         <div class="table-head">
-          <a class="table-head-day">{{ currentWeekDay() }}</a>
-          <a class="table-head-degree">{{Math.round(weather.main.temp)}}°C</a>
+          <a class="table-head-day">{{ currentWeekDay()}}</a>
+          <a class="table-head-degree">{{ Math.round(weather.main.temp) }}°C</a>
         </div>
 
         <div>
-          <IconSun v-if="weather.main.temp > 16" />
-          <IconCold v-else />
+          <IconSun v-if="weather.main.temp > 16"/>
+          <IconCold v-else/>
         </div>
 
         <div class="group">
-          <a class="table-date-day">{{ currentDay() }}</a>
-          <a class="table-date-month">{{ currentMonth() }}</a>
-          <a class="table-date-year">{{ currentYear() }}</a>
+          <a class="table-date-day">{{ currentDay() }} </a>
+          <a class="table-date-month">{{ currentMonth() }} </a>
+          <a class="table-date-year">{{ currentYear() }} </a>
         </div>
 
-        <a class="table-country">{{ weather.name }} {{weather.sys.country}}</a>
+        <a class="table-country">{{ weather.name }} {{ weather.sys.country }}</a>
         <!--<a class="table-status">{{weather.weather[0].main}}</a>-->
       </div>
     </div>
@@ -35,6 +35,7 @@
 <script>
 import IconSun from "@/icons/sun-icon.svg";
 import IconCold from "@/icons/cold-icon.svg";
+import CustomInput from "@/components/input";
 
 export default {
   name: "HelloWorld",
@@ -47,6 +48,7 @@ export default {
     };
   },
   components: {
+    CustomInput,
     IconSun,
     IconCold,
   },
@@ -54,12 +56,12 @@ export default {
     fetchWeather(e) {
       if (e.key == "Enter") {
         fetch(
-          `${this.url_base}weather?q=${this.query}&units=metric&APPID=${this.api_key}`
+            `${this.url_base}weather?q=${this.query}&units=metric&APPID=${this.api_key}`
         )
-          .then((res) => {
-            return res.json();
-          })
-          .then(this.setResults);
+            .then((res) => {
+              return res.json();
+            })
+            .then(this.setResults);
       }
     },
     setResults(results) {
@@ -120,7 +122,7 @@ export default {
   margin-top: 20px;
   display: flex;
   border-radius: 2px;
-  background-color: #131b23;
+  background-color: rgb(var(--dark));
   min-height: 500px;
   align-items: center;
   flex-direction: column;
@@ -133,17 +135,14 @@ export default {
     align-items: center;
 
     &-day {
-      font-family: saira;
       font-size: 38px;
-      color: white;
       margin-top: 20px;
       text-decoration: none;
     }
 
     &-degree {
       font-size: 120px;
-      font-family: saira;
-      color: #2dcad2;
+      color: rgb(var(--blue));
       text-decoration: none;
     }
   }
@@ -153,50 +152,45 @@ export default {
     flex-direction: row;
 
     &-day {
-      font-family: saira;
       font-size: 38px;
-      color: white;
       text-decoration: none;
     }
+
     &-month {
       text-decoration: none;
-      color: white;
       font-size: 38px;
-      font-family: saira;
     }
+
     &-year {
       text-decoration: none;
-      color: white;
       font-size: 38px;
-      font-family: saira;
       margin-top: 50px;
     }
   }
+
   &-country {
     text-decoration: none;
-    color: white;
     font-size: 22px;
-    font-family: saira;
   }
+
   &-status {
     font-size: 25px;
-    font-family: saira;
-    color: #2dcad2;
+    color: rgb(var(--blue));
   }
 }
+
 .group {
   margin-top: auto;
 }
 
 .navbar-custom {
   display: flex;
-  background-color: #1b262c;
+  background-color: rgb(var(--darker));
 
   &-text {
-    color: white;
     font-size: 32px;
-    font-family: saira;
   }
+
   &-search {
     width: 1080px;
     margin: auto;
